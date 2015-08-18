@@ -8,7 +8,7 @@ module TwitterCli
         expect(login_interface.login).to eq("successfully logged in")
       end
 
-      it "should allow valid user to be logged in" do
+      it "should not allow invalid user to be logged in" do
         login_interface = LoginInterface.new("anurag", "bol")
         expect(login_interface.login).to eq("Access denied!")
       end
