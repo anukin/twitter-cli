@@ -5,7 +5,7 @@ module TwitterCli
     end
 
     def get_tweets
-      {:user => "anugrah", :tweet => "hello world indeed"}
+      ["hello world indeed", "shine on you crazy diamond"]
     end
   end
 end
