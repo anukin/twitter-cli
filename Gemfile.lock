@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    figaro (1.1.1)
+      thor (~> 0.14)
     pg (0.18.1)
     rake (10.4.2)
     rspec (3.2.0)
@@ -17,11 +19,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
+    thor (0.19.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  figaro
   pg
   rake
   rspec
