@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: twitchblade_development
+  host: localhost
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: twitchblade_test
+  host: localhost

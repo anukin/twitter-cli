@@ -1,4 +1,3 @@
-require 'pg'
 module TwitterCli
   class Timeline
     def initialize(user)
@@ -18,8 +17,7 @@ module TwitterCli
 
     private
     def connect
-      @conn = PG.connect(
-        :dbname => 'CodeWalker')
+      @conn = PG.connect(:dbname => ENV['database'])
     end
 
     def disconnect

@@ -9,7 +9,7 @@ module TwitterCli
 
     it "should retain the dataset of those people wished upon by user from database" do
       timeline = Timeline.new('red')
-      expect(timeline.get_tweets).to eq(["just caught ratta", "shine on you crazy diamond"])
+      expect(timeline.get_tweets).to eq(["caught a rattata", "shine on you crazy diamond"])
     end
   end
 end
