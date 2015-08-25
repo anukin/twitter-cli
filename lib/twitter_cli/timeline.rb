@@ -1,3 +1,4 @@
+require 'pg'
 module TwitterCli
   class Timeline
     def initialize(user)
