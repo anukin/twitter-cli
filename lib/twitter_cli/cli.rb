@@ -1,6 +1,7 @@
 module TwitterCli
   class Cli
     def infinite_input
+      menu
       while
         input = gets.chomp
         parse(input)
@@ -24,6 +25,10 @@ module TwitterCli
       name = gets.chomp
       timeline = Timeline.new(name)
       puts timeline.get_tweets
+    end
+
+    def menu
+      puts "Available commands :: timeline, exit etc \n"
     end
   end
 end
