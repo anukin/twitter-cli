@@ -3,7 +3,8 @@ module TwitterCli
     #It is mainly for handling i/o operations
     def run
       while        
-        parse(get_input)
+        intermediate_output = parse(get_input)
+        execute(intermediate_output)
       end
     end
     
@@ -13,6 +14,10 @@ module TwitterCli
       end
       @parser = create_parser(command_string, name)
       @parser.parse
+    end
+
+    def execute(processed_input)
+      processed_input.get_tweets
     end
 
     private
