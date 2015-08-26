@@ -2,10 +2,13 @@ require 'spec_helper'
 
 module TwitterCli
   describe "interface" do
-    it "should give access to timeline if asked for timeline" do
-      cli = double("cli")
-      expect(cli).to receive(:parse) {'timeline'}
-      expect(cli.take_input).to eq('timeline')
+    context "parser" do
+      it "should give output based on input" do
+        cli = Cli.new
+        allow(cli).to receive(:get_name) { 'red' }
+        timeline = Timeline.new('red')
+        expect(cli.process("timeline")).to eq(timeline)
+      end
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'pg'
 module TwitterCli
   class Timeline
+    #used for creating timeline of an user
     attr_reader :user
     def initialize(user)
       @user = user

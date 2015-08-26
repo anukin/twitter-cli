@@ -1,7 +1,9 @@
 module TwitterCli
   class Parser
-    def initialize(input)
+    #parser parses the input using some logic
+    def initialize(input, name = 0)
       @input = input
+      @name = name
     end
 
     def parse
@@ -14,9 +16,7 @@ module TwitterCli
     private
 
     def get_timeline
-      puts "Pls give me the name of user whose timeline you wish to access? \n"
-      name = gets.chomp
-      timeline = Timeline.new(name)
+      timeline = Timeline.new(@name)
     end
   end
 end
