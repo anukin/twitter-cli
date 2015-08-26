@@ -18,7 +18,19 @@ module TwitterCli
     end
 
     def ==(other)
-      self.user == other.user
+      if !self.instance_of?(other.class)
+        false
+      else
+        self.user == other.user
+      end
+    end
+
+    def hash
+      [@user].hash
+    end
+
+    def eql?(other)
+      self == other
     end
     
     private
