@@ -1,6 +1,7 @@
 require 'pg'
 module TwitterCli
   class Timeline
+    attr_reader :user
     def initialize(user)
       @user = user
     end
@@ -16,6 +17,10 @@ module TwitterCli
       tweets
     end
 
+    def ==(other)
+      self.user == other.user
+    end
+    
     private
     def connect
       @conn = PG.connect(:dbname => ENV['database'])
