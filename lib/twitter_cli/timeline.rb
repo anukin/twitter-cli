@@ -9,14 +9,23 @@ module TwitterCli
     def get_tweets
       connect
       tweets = []
-      res = @conn.exec('select * from tweets where username = $1', [@user])
+      res = @conn.exec('select tweet from tweets where username = $1', [@user])
       disconnect
-      res.each do|row|
-        tweets << row['tweet']
+      if validate(res)
+        "No such user exists"
+      else
+        res.each do|row|
+          tweets << row['tweet']
+        end
+        
+        tweets
       end
-      tweets
     end
 
+    def validate(result)
+      result.ntuples == 0 
+    end
+    
     def ==(other)
       if !self.instance_of?(other.class)
         false

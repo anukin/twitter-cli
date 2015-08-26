@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module TwitterCli
-  describe 'TimeLine Access' do
+  describe 'Timeline' do
     context "retaining tweets according to user" do
       it "should retain the dataset of those people wished upon by user" do
         timeline = Timeline.new('anugrah')
@@ -11,6 +11,11 @@ module TwitterCli
       it "should retain the dataset of those people wished upon by user from database" do
         timeline = Timeline.new('red')
         expect(timeline.get_tweets).to eq(["caught a rattata", "shine on you crazy diamond"])
+      end
+
+      it "should give out error if user is not found" do
+        timeline = Timeline.new('reggie')
+        expect(timeline.get_tweets).to eq("No such user exists")
       end
     end
 
