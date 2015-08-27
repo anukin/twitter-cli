@@ -10,10 +10,6 @@ module TwitterCli
       case @input
       when 'timeline'
         get_timeline
-      when 'exit'
-        exit
-      when 'help'
-        :help
       end
     end
 
