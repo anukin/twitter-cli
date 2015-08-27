@@ -6,21 +6,21 @@ module TwitterCli
     let(:res_red) { conn.exec('select tweet from tweets where username = $1', ['red']) }
     let(:res_anugrah) { conn.exec('select tweet from tweets where username = $1', ['anugrah']) }
     let(:tweets) { [] }
+    def helper_get_tweets(res)
+      res.each do|row|
+        tweets << row['tweet']
+      end
+      tweets
+    end
     context "retaining tweets according to user" do
       it "should retain the dataset of those people wished upon by user" do
-        res_anugrah.each do|row|
-          tweets << row['tweet']
-        end
         timeline = Timeline.new('anugrah')
-        expect(timeline.get_tweets).to eq(tweets)
+        expect(timeline.get_tweets).to eq(helper_get_tweets(res_anugrah))
       end
 
       it "should retain the dataset of those people wished upon by user from database" do
-        res_red.each do|row|
-          tweets << row['tweet']
-        end
         timeline = Timeline.new('red')
-        expect(timeline.get_tweets).to eq(tweets)
+        expect(timeline.get_tweets).to eq(helper_get_tweets(res_red))
       end
 
       it "should give out error if user is not found" do
