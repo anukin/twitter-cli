@@ -3,8 +3,8 @@ module TwitterCli
     #It is mainly for handling i/o operations
     def run
       while        
-        intermediate_output = parse(get_input)
-        execute(intermediate_output)
+        intermediate_output = process(get_input)
+        puts execute(intermediate_output)
       end
     end
     
