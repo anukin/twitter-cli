@@ -2,15 +2,25 @@ require 'spec_helper'
 
 module TwitterCli
   describe 'Timeline' do
+    let(:conn) { PG.connect(:dbname => ENV['database']) }
+    let(:res_red) { conn.exec('select tweet from tweets where username = $1', ['red']) }
+    let(:res_anugrah) { conn.exec('select tweet from tweets where username = $1', ['anugrah']) }
+    let(:tweets) { [] }
     context "retaining tweets according to user" do
       it "should retain the dataset of those people wished upon by user" do
+        res_anugrah.each do|row|
+          tweets << row['tweet']
+        end
         timeline = Timeline.new('anugrah')
-        expect(timeline.get_tweets).to eq(["hello world indeed", "shine on you crazy diamond"])
+        expect(timeline.get_tweets).to eq(tweets)
       end
 
       it "should retain the dataset of those people wished upon by user from database" do
+        res_red.each do|row|
+          tweets << row['tweet']
+        end
         timeline = Timeline.new('red')
-        expect(timeline.get_tweets).to eq(["caught a rattata", "shine on you crazy diamond"])
+        expect(timeline.get_tweets).to eq(tweets)
       end
 
       it "should give out error if user is not found" do

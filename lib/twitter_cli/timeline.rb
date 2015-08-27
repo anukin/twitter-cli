@@ -2,7 +2,7 @@ require 'pg'
 module TwitterCli
   class Timeline
     #used for creating timeline of an user
-    attr_reader :user
+    attr_reader :user, :res
     def initialize(user)
       @user = user
     end
@@ -10,12 +10,12 @@ module TwitterCli
     def get_tweets
       connect
       tweets = []
-      res = @conn.exec('select tweet from tweets where username = $1', [@user])
+      @res = @conn.exec('select tweet from tweets where username = $1', [@user])
       disconnect
       if validate(res)
         "No such user exists"
       else
-        res.each do|row|
+        @res.each do|row|
           tweets << row['tweet']
         end
         
