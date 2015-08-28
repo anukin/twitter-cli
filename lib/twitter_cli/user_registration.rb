@@ -8,8 +8,13 @@ module TwitterCli
     def register
       connect
       prepare_insert_statement
-      res = @conn.exec_prepared("insert_user", [@username, @password])
+      if validate
+        res = @conn.exec_prepared("insert_user", [@username, @password])
+      else
+        res = "Another user exists with same name pls go for some other username!"
+      end
       disconnect
+      res
     end
 
     private
@@ -23,6 +28,11 @@ module TwitterCli
 
     def prepare_insert_statement
       @conn.prepare("insert_user", "insert into users (name, password) values ($1, $2)")
+    end
+
+    def validate
+      temp_res = @conn.exec('select name from users where name = $1', [@username])
+      temp_res.ntuples == 0
     end
   end
 end

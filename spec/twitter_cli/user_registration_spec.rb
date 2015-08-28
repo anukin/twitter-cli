@@ -12,6 +12,13 @@ module TwitterCli
         res = conn.exec('select user from users where name = $1', [user])
         expect(res.ntuples).to_not eq(0)
       end
+
+      it "if user is already present then it should return error message" do
+        user = 'red'
+        password = 'catch them all'
+        user_registration = UserRegistration.new(user, password)
+        expect(user_registration.register).to eq("Another user exists with same name pls go for some other username!")
+      end
     end
   end
 end
