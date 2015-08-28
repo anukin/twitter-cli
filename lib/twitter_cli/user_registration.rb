@@ -1,7 +1,7 @@
 module TwitterCli
   class UserRegistration
     #A class specifically in place for registering an user for twitch blade services
-    attr_reader :timeline
+    attr_reader :username , :password
     def initialize(username, password)
       @username = username
       @password = password
@@ -21,7 +21,24 @@ module TwitterCli
       res
     end
 
+    def ==(other)
+      if !self.instance_of?(other.class)
+        false
+      else
+        self.username == other.username && self.password == other.password
+      end
+    end
+
+    def hash
+      [@username.hash, @password.hash].hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+    
     private
+    
     def connect
       @conn = PG.connect(:dbname => ENV['database'])
     end

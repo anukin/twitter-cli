@@ -20,12 +20,51 @@ module TwitterCli
         expect(user_registration.register).to eq("Another user exists with same name pls go for some other username!")
       end
 
-      it "should return the timeline of user once he's finished registering" do
+      it "should return the UserRegistration of user once he's finished registering" do
         user = 'lol'
         password = 'lol'
         user_registration = UserRegistration.new(user, password)
         timeline = Timeline.new('lol')
         expect(user_registration.register).to eq(timeline.get_tweets)
+      end
+    end
+
+    context "equality" do
+      it "should be reflexive in nature" do
+        user_registration_1 = UserRegistration.new('red','red')
+        expect(user_registration_1).to eq(UserRegistration.new('red', 'red'))
+      end
+
+      it "should be symmetric in nature" do
+        user_registration_1 = UserRegistration.new('red', 'red')
+        user_registration_2 = UserRegistration.new('red', 'red')
+        expect(user_registration_1).to eq(user_registration_2)
+        expect(user_registration_2).to eq(user_registration_1)
+      end
+
+      it "should be transitive in nature" do
+        user_registration_1 = UserRegistration.new('red', 'red')
+        user_registration_2 = UserRegistration.new('red', 'red')
+        user_registration_3 = UserRegistration.new('red', 'red')
+        expect(user_registration_1).to eq(user_registration_2)
+        expect(user_registration_2).to eq(user_registration_3)
+        expect(user_registration_1).to eq(user_registration_3)
+      end
+
+      it "is not equal to nil" do
+        user_registration_1 = UserRegistration.new('red', 'red')
+        expect(user_registration_1).to_not eq(nil)
+      end
+
+      it "is not equal for different types" do
+        user_registration_1 = UserRegistration.new('red', 'red')
+        expect(user_registration_1).to_not eq(Object.new)
+      end
+
+      it "hashes must be same if objects are same" do
+        user_registration_1 = UserRegistration.new('red', 'red')
+        user_registration_2 = UserRegistration.new('red', 'red')
+        expect(user_registration_1.hash).to eq(user_registration_2.hash)
       end
     end
   end

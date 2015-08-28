@@ -10,6 +10,7 @@ module TwitterCli
         tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
         expect(cli.process("timeline")).to eq(tweets_of_red)
       end
+      
       it "should give process based on input and output when input is help" do
         cli = Cli.new
         help_menu = " ___                                                                       
@@ -25,6 +26,14 @@ module TwitterCli
                                  "\nhelp : for help" + 
                                  "\nexit : for exit\n"
         expect(cli.process("help")).to eq(help_menu)
+      end
+
+      it "should give process based on input and output" do
+        cli = Cli.new
+        allow(cli).to receive(:get_name) { 'lol' }
+        allow(cli).to receive(:get_password) { 'lol'}
+        timeline = Timeline.new('lol')
+        expect(cli.process("register")).to eq(timeline.get_tweets)
       end
     end
   end

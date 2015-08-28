@@ -15,6 +15,10 @@ module TwitterCli
       when 'timeline'
         name = get_name
       
+      when 'register'
+        name = get_name
+        password = get_password
+      
       when 'help'
         return help 
       
