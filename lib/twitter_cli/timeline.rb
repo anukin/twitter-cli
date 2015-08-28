@@ -7,7 +7,7 @@ module TwitterCli
       @user = user
     end
 
-    def get_tweets
+    def process
       connect
       @tweets = []
       @user_result = @conn.exec('select name from users where name = $1', [@user])

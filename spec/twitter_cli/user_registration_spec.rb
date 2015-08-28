@@ -8,7 +8,7 @@ module TwitterCli
         user = 'blue'
         password = 'catch them all'
         user_registration = UserRegistration.new(user, password)
-        user_registration.register
+        user_registration.process
         res = conn.exec('select user from users where name = $1', [user])
         expect(res.ntuples).to_not eq(0)
       end
@@ -17,7 +17,7 @@ module TwitterCli
         user = 'red'
         password = 'catch them all'
         user_registration = UserRegistration.new(user, password)
-        expect(user_registration.register).to eq("Another user exists with same name pls go for some other username!")
+        expect(user_registration.process).to eq("Another user exists with same name pls go for some other username!")
       end
 
       it "should return the UserRegistration of user once he's finished registering" do
@@ -25,7 +25,7 @@ module TwitterCli
         password = 'lol'
         user_registration = UserRegistration.new(user, password)
         timeline = Timeline.new('lol')
-        expect(user_registration.register).to eq(timeline.get_tweets)
+        expect(user_registration.process).to eq(timeline.process)
       end
     end
 

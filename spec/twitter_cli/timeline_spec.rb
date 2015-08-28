@@ -15,22 +15,22 @@ module TwitterCli
     context "retaining tweets according to user" do
       it "should retain the dataset of those people wished upon by user" do
         timeline = Timeline.new('anugrah')
-        expect(timeline.get_tweets).to eq(helper_get_tweets(res_anugrah))
+        expect(timeline.process).to eq(helper_get_tweets(res_anugrah))
       end
 
       it "should retain the dataset of those people wished upon by user from database" do
         timeline = Timeline.new('red')
-        expect(timeline.get_tweets).to eq(helper_get_tweets(res_red))
+        expect(timeline.process).to eq(helper_get_tweets(res_red))
       end
 
       it "should give out error if user is not found" do
         timeline = Timeline.new('reggie')
-        expect(timeline.get_tweets).to eq("No such user exists")
+        expect(timeline.process).to eq("No such user exists")
       end
 
       it "should give out no tweets if user is found but haven't tweeted yet" do
         timeline = Timeline.new('blue')
-        expect(timeline.get_tweets).to eq("No tweets yet")
+        expect(timeline.process).to eq("No tweets yet")
       end
     end
 

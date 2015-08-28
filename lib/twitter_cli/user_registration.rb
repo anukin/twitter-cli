@@ -7,13 +7,13 @@ module TwitterCli
       @password = password
     end
 
-    def register
+    def process
       connect
       prepare_insert_statement
       if validate
         @conn.exec_prepared("insert_user", [@username, @password])
         @timeline = create_timeline
-        res = @timeline.get_tweets
+        res = @timeline.process
       else
         res = "Another user exists with same name pls go for some other username!"
       end

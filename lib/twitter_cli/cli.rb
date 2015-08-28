@@ -56,7 +56,7 @@ module TwitterCli
     end
 
     def execute(processed_input)
-      processed_input.get_tweets
+      processed_input.process
     end
     
     def get_input
