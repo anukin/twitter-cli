@@ -13,7 +13,7 @@ module TwitterCli
       case command_string
       
       when 'timeline'
-        name = get_name
+        name = get_name_timeline
       
       when 'register'
         name = get_name
@@ -25,7 +25,7 @@ module TwitterCli
       when 'exit'
         exit 
       end
-      @parser = create_parser(command_string, name)
+      @parser = create_parser(command_string, name, password)
       parsed_input = @parser.parse
       execute(parsed_input)
     end
@@ -43,6 +43,7 @@ module TwitterCli
                                   _/         (                             " + 
                                  "\nAvailable Commands are" + 
                                  "\ntimeline : for accessing timeline" + 
+                                 "\nregister : to register for twitchblade"+ 
                                  "\nhelp : for help" + 
                                  "\nexit : for exit\n"
     end
@@ -51,8 +52,8 @@ module TwitterCli
       puts @output
     end
     
-    def create_parser(input, name)
-      Parser.new(input, name)
+    def create_parser(input, name, password)
+      Parser.new(input, name, password)
     end
 
     def execute(processed_input)
@@ -63,8 +64,18 @@ module TwitterCli
       gets.chomp
     end
 
-    def get_name
+    def get_name_timeline
       puts "Pls enter the name of user whose timeline you wish to access?\n"
+      gets.chomp
+    end
+
+    def get_name
+      puts "Pls enter the name.\n"
+      gets.chomp
+    end
+    
+    def get_password
+      puts "Pls enter the password.\n"
       gets.chomp
     end
   end

@@ -40,7 +40,8 @@ module TwitterCli
     private
     
     def connect
-      @conn = PG.connect(:dbname => ENV['database'])
+      #@conn = PG.connect(:dbname => ENV['database'])
+      @conn = PG.connect('192.168.0.115', 5432, nil, nil, 'twitchblade', 'postgres', 'megamind')
     end
 
     def disconnect
