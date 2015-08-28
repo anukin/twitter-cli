@@ -19,6 +19,14 @@ module TwitterCli
         user_registration = UserRegistration.new(user, password)
         expect(user_registration.register).to eq("Another user exists with same name pls go for some other username!")
       end
+
+      it "should return the timeline of user once he's finished registering" do
+        user = 'lol'
+        password = 'lol'
+        user_registration = UserRegistration.new(user, password)
+        timeline = Timeline.new('lol')
+        expect(user_registration.register).to eq(timeline.get_tweets)
+      end
     end
   end
 end

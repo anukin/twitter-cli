@@ -27,6 +27,11 @@ module TwitterCli
         timeline = Timeline.new('reggie')
         expect(timeline.get_tweets).to eq("No such user exists")
       end
+
+      it "should give out no tweets if user is found but haven't tweeted yet" do
+        timeline = Timeline.new('blue')
+        expect(timeline.get_tweets).to eq("No tweets yet")
+      end
     end
 
     context "equality" do

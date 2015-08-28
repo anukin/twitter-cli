@@ -9,18 +9,21 @@ module TwitterCli
 
     def get_tweets
       connect
-      tweets = []
-      @res = @conn.exec('select tweet from tweets where username = $1', [@user])
-      disconnect
-      if validate(@res)
-        "No such user exists"
+      @tweets = []
+      @user_result = @conn.exec('select name from users where name = $1', [@user])
+      if validate(@user_result)
+        output = "No such user exists"
       else
-        @res.each do|row|
-          tweets << row['tweet']
+        @res = @conn.exec('select tweet from tweets where username = $1', [@user])
+        if validate(@res)
+          output = "No tweets yet"
+        else
+          aggregate_tweets
+          output = @tweets
         end
-        
-        tweets
       end
+      disconnect
+      output
     end
 
     def validate(result)
@@ -45,11 +48,18 @@ module TwitterCli
     
     private
     def connect
-      @conn = PG.connect('192.168.0.115', 5432, nil, nil, 'twitchblade', 'postgres', 'megamind')
+      #@conn = PG.connect('192.168.0.115', 5432, nil, nil, 'twitchblade', 'postgres', 'megamind')
+      @conn = PG.connect(:dbname => ENV['database'])
     end
 
     def disconnect
       @conn.close
+    end
+
+    def aggregate_tweets
+      @res.each do|row|
+          @tweets << row['tweet']
+      end
     end
   end
 end
