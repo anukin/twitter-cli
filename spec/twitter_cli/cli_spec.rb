@@ -36,6 +36,14 @@ module TwitterCli
         timeline = Timeline.new('lol')
         expect(cli.process("register")).to eq(timeline.process)
       end
+
+      it "should process based on input and output when input is login" do
+        cli = Cli.new
+        allow(cli).to receive(:get_name) { 'bulla' }
+        allow(cli).to receive(:get_password) { 'gunda'}
+        timeline = Timeline.new('bulla')
+        expect(cli.process("login")).to eq(timeline.process)
+      end
     end
   end
 end

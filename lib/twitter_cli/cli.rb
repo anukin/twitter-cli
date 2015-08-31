@@ -19,6 +19,10 @@ module TwitterCli
         name = get_name
         password = get_password
       
+      when 'register'
+        name = get_name
+        password = get_password
+      
       when 'help'
         return help 
       

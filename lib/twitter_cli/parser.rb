@@ -15,6 +15,9 @@ module TwitterCli
 
       when 'register'
         get_registered
+
+      when 'login'
+        login
       end
     end
 
@@ -26,6 +29,10 @@ module TwitterCli
 
     def get_registered
       UserRegistration.new(@name, @password)
+    end
+
+    def login
+      UserLogin.new(@name, @password)
     end
   end
 end

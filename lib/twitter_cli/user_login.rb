@@ -1,5 +1,7 @@
 module TwitterCli
   class UserLogin
+    attr_reader :username, :password
+    
     def initialize(username, password)
       @username = username
       @password = password
@@ -8,6 +10,22 @@ module TwitterCli
     def login
       connect
       validate
+    end
+
+    def ==(other)
+      if !self.instance_of?(other.class)
+        false
+      else
+        self.username == other.username && self.password == other.password
+      end
+    end
+
+    def hash
+      [@username.hash, @password.hash].hash
+    end
+
+    def eql?(other)
+      self == other
     end
 
     private
