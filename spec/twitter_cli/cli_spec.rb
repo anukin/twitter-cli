@@ -7,6 +7,7 @@ module TwitterCli
 
         cli = Cli.new
         allow(cli).to receive(:get_name_timeline) { 'red' }
+
         tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
         expect(cli.process("timeline")).to eq(tweets_of_red)
       end

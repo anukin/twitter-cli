@@ -10,6 +10,7 @@ module TwitterCli
     def process
       connect
       validate
+      disconnect
     end
 
     def ==(other)
