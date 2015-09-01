@@ -5,7 +5,6 @@ module TwitterCli
     end
 
     def run
-      puts help
       while
         @output = process(get_input)
         print_output
@@ -28,10 +27,6 @@ module TwitterCli
 
     def get_input
       gets.chomp
-    end
-
-    def print_input
-      puts @output
     end
 
     def get_tweet

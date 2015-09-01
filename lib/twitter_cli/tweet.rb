@@ -10,6 +10,7 @@ module TwitterCli
       prepare_insert_statement
       @conn.exec_prepared("insert_tweet", [@username, @tweet])
       disconnect
+      "Successfully tweeted"
     end
 
     private

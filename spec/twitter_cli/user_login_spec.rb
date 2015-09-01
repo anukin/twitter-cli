@@ -7,12 +7,17 @@ module TwitterCli
       it "should let the user sign in according to the name and password" do
         user_login = UserLogin.new("anugrah", "megamind")
         timeline = Timeline.new('anugrah')
-        expect(user_login.process).to eq(timeline)
+        expect(user_login.process).to eq(timeline.process)
       end
 
       it "should let the user login using valid credentials" do
         user_login = UserLogin.new("bulla", "gunda")
-        expect(user_login.process).to eq("No!")
+        expect(user_login.process).to eq("Access denied! No user by that name.")
+      end
+
+      it "should not let the user login using arbitrary values" do
+        user_login = UserLogin.new("red", "gunda")
+        expect(user_login.process).to eq("Access denied! Check your password.")
       end
     end
 

@@ -32,7 +32,7 @@ module TwitterCli
     end
 
     def login
-      UserLogin.new(@name, @password).process
+      UserLogin.new(@name, @password)
     end
   end
 end

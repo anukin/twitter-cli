@@ -34,9 +34,15 @@ module TwitterCli
 
     def execute
       parse
-      @parsed_input.process
-      user_interface = UserInterface.new(@username)
-      user_interface.run
+      output = @parsed_input.process
+      unless output.class == String
+        user_interface = UserInterface.new(@name)
+        puts user_interface.help
+        puts output
+        user_interface.run
+      else
+        output
+      end
     end
 
     def execute_timeline

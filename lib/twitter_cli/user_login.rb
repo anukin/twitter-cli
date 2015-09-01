@@ -34,7 +34,7 @@ module TwitterCli
     def validate
       res = @conn.exec("select name, password from users where name = $1", [@username])
       if res.ntuples == 0
-        "No!"
+        "Access denied! No user by that name."
       else
         password_validation(res)
       end
@@ -42,9 +42,9 @@ module TwitterCli
 
     def password_validation(res)
       if res[0]['password'] == @password
-        Timeline.new(@username)
+        Timeline.new(@username).process
       else
-        "No!"
+        "Access denied! Check your password."
       end
     end
 
