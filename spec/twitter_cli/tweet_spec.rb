@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module TwitterCli
+  module TwitterCli
   describe "tweet" do
     it "should be possible for the user to tweet" do
       username = 'anugrah'

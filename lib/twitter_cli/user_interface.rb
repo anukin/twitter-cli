@@ -5,23 +5,21 @@ module TwitterCli
     end
 
     def run
-      @output = process(get_input)
-      print_output
+      puts help
+      while
+        @output = process(get_input)
+        print_output
+      end
     end
 
     def process(command)
       case command
       when 'help'
-        ' __      __       .__                                
-/  \    /  \ ____ |  |   ____  ____   _____   ____   
-\   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
- \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
-  \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
-       \/       \/          \/            \/     \/  
-       ' + @username + ' to TwitchBlade
-            help
-       tweet : for tweeting
-       help  : for displaying help'
+        help
+      
+      when 'exit'
+        exit
+      
       when 'tweet'
         msg = get_tweet
         Tweet.new(@username, msg).send_tweet 
@@ -39,5 +37,22 @@ module TwitterCli
     def get_tweet
       gets.chomp
     end
+
+    def print_output
+      puts @output
+    end
+
+    def help
+      ' __      __       .__                                
+/  \    /  \ ____ |  |   ____  ____   _____   ____   
+\   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
+ \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
+  \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
+       \/       \/          \/            \/     \/  
+       ' + @username + ' to TwitchBlade
+            help
+       tweet : for tweeting
+       help  : for displaying help'
+   end
   end
 end

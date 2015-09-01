@@ -10,18 +10,17 @@ module TwitterCli
     end
     
     def process(command_string)
+      @command_string = command_string
       case command_string
       
       when 'timeline'
         @name = get_name_timeline
+        execute_timeline
       
-      when 'register'
+      when 'register', 'login'
         @name = get_name
         @password = get_password
-      
-      when 'login'
-        @name = get_name
-        @password = get_password
+        execute
       
       when 'help'
         return help 
@@ -29,13 +28,27 @@ module TwitterCli
       when 'exit'
         exit 
       end
-      @parser = create_parser(command_string, @name, @password)
-      parsed_input = @parser.parse
-      execute(parsed_input)
     end
     
     private
 
+    def execute
+      parse
+      @parsed_input.process
+      user_interface = UserInterface.new(@username)
+      user_interface.run
+    end
+
+    def execute_timeline
+      parse
+      @parsed_input.process
+    end
+    
+    def parse
+      @parser = create_parser(@command_string, @name, @password)
+      @parsed_input = @parser.parse
+    end
+    
     def help
       " ___                                                                       
 -   ---___-             ,       ,,          _-_ _,,   ,,        |\         
@@ -47,7 +60,8 @@ module TwitterCli
                                   _/         (                             " + 
                                  "\nAvailable Commands are" + 
                                  "\ntimeline : for accessing timeline" + 
-                                 "\nregister : to register for twitchblade"+ 
+                                 "\nregister : to register for twitchblade"+
+                                 "\nlogin : login to twitchblade"+
                                  "\nhelp : for help" + 
                                  "\nexit : for exit\n"
     end
@@ -58,10 +72,6 @@ module TwitterCli
     
     def create_parser(input, name, password)
       Parser.new(input, name, password)
-    end
-
-    def execute(processed_input)
-      processed_input.process
     end
     
     def get_input
