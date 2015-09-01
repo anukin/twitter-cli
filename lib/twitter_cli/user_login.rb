@@ -7,7 +7,7 @@ module TwitterCli
       @password = password
     end
 
-    def login
+    def process
       connect
       validate
     end
@@ -40,7 +40,7 @@ module TwitterCli
 
     def password_validation(res)
       if res[0]['password'] == @password
-        "Successfully logged in!"
+        Timeline.new(@username)
       else
         "No!"
       end

@@ -4,9 +4,9 @@ module TwitterCli
   describe "interface" do
     context "process" do
       it "should process based on input and output" do
+
         cli = Cli.new
         allow(cli).to receive(:get_name_timeline) { 'red' }
-        timeline = Timeline.new('red')
         tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
         expect(cli.process("timeline")).to eq(tweets_of_red)
       end
@@ -39,9 +39,9 @@ module TwitterCli
 
       it "should process based on input and output when input is login" do
         cli = Cli.new
-        allow(cli).to receive(:get_name) { 'bulla' }
-        allow(cli).to receive(:get_password) { 'gunda'}
-        timeline = Timeline.new('bulla')
+        allow(cli).to receive(:get_name) { 'anugrah' }
+        allow(cli).to receive(:get_password) { 'megamind' }
+        timeline = Timeline.new('anugrah')
         expect(cli.process("login")).to eq(timeline.process)
       end
     end

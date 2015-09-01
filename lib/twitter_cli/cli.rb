@@ -13,15 +13,15 @@ module TwitterCli
       case command_string
       
       when 'timeline'
-        name = get_name_timeline
+        @name = get_name_timeline
       
       when 'register'
-        name = get_name
-        password = get_password
+        @name = get_name
+        @password = get_password
       
-      when 'register'
-        name = get_name
-        password = get_password
+      when 'login'
+        @name = get_name
+        @password = get_password
       
       when 'help'
         return help 
@@ -29,7 +29,7 @@ module TwitterCli
       when 'exit'
         exit 
       end
-      @parser = create_parser(command_string, name, password)
+      @parser = create_parser(command_string, @name, @password)
       parsed_input = @parser.parse
       execute(parsed_input)
     end

@@ -24,7 +24,7 @@ module TwitterCli
     private
 
     def get_timeline
-      timeline = Timeline.new(@name)
+      Timeline.new(@name)
     end
 
     def get_registered
@@ -32,7 +32,7 @@ module TwitterCli
     end
 
     def login
-      UserLogin.new(@name, @password)
+      UserLogin.new(@name, @password).process
     end
   end
 end
