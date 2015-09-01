@@ -35,9 +35,10 @@ module TwitterCli
     def execute
       parse
       output = @parsed_input.process
-      unless output.class == String
+      unless output.class == String && output != "No tweets yet" 
         user_interface = UserInterface.new(@name)
         puts user_interface.help
+        puts "Dear " + @name + " your tweets are \n"
         puts output
         user_interface.run
       else
