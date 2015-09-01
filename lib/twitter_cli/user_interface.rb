@@ -22,6 +22,9 @@ module TwitterCli
             help
        tweet : for tweeting
        help  : for displaying help'
+      when 'tweet'
+        msg = get_tweet
+        Tweet.new(@username, msg).send_tweet 
       end
     end
 
@@ -31,6 +34,10 @@ module TwitterCli
 
     def print_input
       puts @output
+    end
+
+    def get_tweet
+      gets.chomp
     end
   end
 end

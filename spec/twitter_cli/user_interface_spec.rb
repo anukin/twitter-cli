@@ -17,5 +17,15 @@ module TwitterCli
       user_interface = UserInterface.new(username)
       expect(user_interface.process('help')).to eq(help)
     end
+
+    it "should process if given input is tweet" do
+      username = 'anugrah'
+      msg = 'trolling around'
+      user_interface = UserInterface.new(username)
+      allow(user_interface).to receive(:get_tweet) { msg }
+      timeline = Timeline.new('anugrah')
+      user_interface.process('tweet')
+      expect(timeline.process).to include(msg)
+    end
   end
 end
