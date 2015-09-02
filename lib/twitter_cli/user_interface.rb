@@ -7,11 +7,12 @@ module TwitterCli
     def run
       while
         @output = process(get_input)
-        print_output
         if @output == "logging out"
           break
         end
+        print_output
       end
+      @output
     end
 
     def process(command)
@@ -30,6 +31,7 @@ module TwitterCli
         UserFollow.new(@username, user_to_follow).follow
 
       when 'timeline'
+        puts "You are viewing your timeline now\n"
         Timeline.new(@username).process
 
       when 'search'
@@ -64,18 +66,22 @@ module TwitterCli
     private
 
     def get_name
+      puts "Pls enter the name to search for ? \n"
       gets.chomp
     end
 
     def user_to_follow
+      puts "Pls enter the name to follow ? \n"
       gets.chomp
     end
     
     def get_input
+      puts "Pls enter the choice"
       gets.chomp
     end
 
     def get_tweet
+      puts "Pls give the tweet you wish to make ?"
       gets.chomp
     end
 
