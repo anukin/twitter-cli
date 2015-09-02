@@ -8,6 +8,9 @@ module TwitterCli
       while
         @output = process(get_input)
         print_output
+        if @output == "logging out"
+          break
+        end
       end
     end
 
@@ -31,8 +34,31 @@ module TwitterCli
 
       when 'search'
         Timeline.new(get_name).process
+
+      when 'stream'
+        Stream.new(@username).get_stream
+
+      when 'logout'
+        "logging out"
       end
     end
+
+    def help
+      ' __      __       .__                                
+/  \    /  \ ____ |  |   ____  ____   _____   ____   
+\   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
+ \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
+  \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
+       \/       \/          \/            \/     \/  
+       ' + @username + ' to TwitchBlade
+            help
+       tweet    : for tweeting
+       follow   : for following other twitchers
+       timeline : view timeline of self
+       search   : view timeline of other users
+       help     : for displaying help
+       logout   : for logging out'
+   end
 
     private
 
@@ -55,21 +81,5 @@ module TwitterCli
     def print_output
       puts @output
     end
-
-    def help
-      ' __      __       .__                                
-/  \    /  \ ____ |  |   ____  ____   _____   ____   
-\   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
- \        /\  ___/|  |_\  \__(  <_> |  Y Y  \  ___/  
-  \__/\  /  \___  |____/\___  \____/|__|_|  /\___  > 
-       \/       \/          \/            \/     \/  
-       ' + @username + ' to TwitchBlade
-            help
-       tweet    : for tweeting
-       follow   : for following other twitchers
-       timeline : view timeline of self
-       search   : view timeline of other users
-       help     : for displaying help'
-   end
   end
 end

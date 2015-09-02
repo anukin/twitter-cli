@@ -16,7 +16,8 @@ module TwitterCli
        follow   : for following other twitchers
        timeline : view timeline of self
        search   : view timeline of other users
-       help     : for displaying help'
+       help     : for displaying help
+       logout   : for logging out'
       user_interface = UserInterface.new(username)
       expect(user_interface.process('help')).to eq(help)
     end
@@ -50,6 +51,11 @@ module TwitterCli
       user_interface = UserInterface.new('anugrah')
       allow(user_interface).to receive(:get_name) { 'red' }
       expect(user_interface.process('search')).to eq(Timeline.new('red').process)
+    end
+
+    it "should process if given input is stream" do
+      user_interface = UserInterface.new('anugrah')
+      expect(user_interface.process('stream')).to eq(Stream.new('anugrah').get_stream)
     end
   end
 end
