@@ -17,5 +17,12 @@ module TwitterCli
       user_unfollow = UserUnfollow.new(username, user_to_unfollow)
       expect(user_unfollow.unfollow).to eq("Pls unfollow someone who exists")
     end
+
+    it "should allow users to unfollow valid users" do
+      username = 'anugrah'
+      user_to_unfollow = 'lol'
+      user_unfollow = UserUnfollow.new(username, user_to_unfollow)
+      expect(user_unfollow.unfollow).to eq("You do not follow this user")
+    end
   end
 end
