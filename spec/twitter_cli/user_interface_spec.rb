@@ -16,6 +16,7 @@ module TwitterCli
        follow   : for following other twitchers
        timeline : view timeline of self
        search   : view timeline of other users
+       stream   : view your stream
        help     : for displaying help
        logout   : for logging out'
       user_interface = UserInterface.new(username)
