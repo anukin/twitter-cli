@@ -12,9 +12,10 @@ module TwitterCli
        \/       \/          \/            \/     \/  
        anugrah to TwitchBlade
             help
-       tweet  : for tweeting
-       follow : for following other twitchers
-       help   : for displaying help'
+       tweet    : for tweeting
+       follow   : for following other twitchers
+       timeline : view timeline of self
+       help     : for displaying help'
       user_interface = UserInterface.new(username)
       expect(user_interface.process('help')).to eq(help)
     end
@@ -36,6 +37,12 @@ module TwitterCli
       allow(user_interface).to receive(:user_to_follow) { user_to_follow }
       user_follow = UserFollow.new(username, user_to_follow)
       expect(user_interface.process('follow')).to eq(user_follow.follow)
+    end
+
+    it "should process if given input is timeline" do
+      username = 'anugrah'
+      user_interface = UserInterface.new(username)
+      expect(user_interface.process('timeline')).to eq(Timeline.new('anugrah').process)
     end
   end
 end

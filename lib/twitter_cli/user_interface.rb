@@ -25,6 +25,9 @@ module TwitterCli
 
       when 'follow'
         UserFollow.new(@username, user_to_follow).follow
+
+      when 'timeline'
+        Timeline.new(@username).process
       end
     end
 
@@ -55,9 +58,10 @@ module TwitterCli
        \/       \/          \/            \/     \/  
        ' + @username + ' to TwitchBlade
             help
-       tweet  : for tweeting
-       follow : for following other twitchers
-       help   : for displaying help'
+       tweet    : for tweeting
+       follow   : for following other twitchers
+       timeline : view timeline of self
+       help     : for displaying help'
    end
   end
 end
