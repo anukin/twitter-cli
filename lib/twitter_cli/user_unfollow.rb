@@ -7,12 +7,22 @@ module TwitterCli
 
     def unfollow
       connect
+      if validate
+        result = "Pls unfollow someone who exists"
+      else
+        result = "Successfully unfollowed red"
+      end
       disconnect
-      "Successfully unfollowed red"
+      result
     end
 
     private
-
+    
+    def validate
+      res = @conn.exec('select name from users where name = $1', [@user_to_follow])
+      res.ntuples == 0
+    end
+    
     def connect
       @conn = PG.connect(:dbname => ENV['database'])
     end
