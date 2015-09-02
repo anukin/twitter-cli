@@ -28,10 +28,17 @@ module TwitterCli
 
       when 'timeline'
         Timeline.new(@username).process
+
+      when 'search'
+        Timeline.new(get_name).process
       end
     end
 
     private
+
+    def get_name
+      gets.chomp
+    end
 
     def user_to_follow
       gets.chomp
@@ -61,6 +68,7 @@ module TwitterCli
        tweet    : for tweeting
        follow   : for following other twitchers
        timeline : view timeline of self
+       search   : view timeline of other users
        help     : for displaying help'
    end
   end
