@@ -10,5 +10,12 @@ module TwitterCli
       user_follow = UserFollow.new(username, user_to_follow)
       expect(user_follow.follow).to eq("Successfully followed red")
     end
+
+    it "should allow users to follow valid users" do
+      username = 'anugrah'
+      user_to_follow = 'munni'
+      user_follow = UserFollow.new(username, user_to_follow)
+      expect(user_follow.follow).to eq("Pls follow someone who exists")
+    end
   end
 end
