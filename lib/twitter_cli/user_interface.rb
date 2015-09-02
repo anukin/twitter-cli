@@ -21,10 +21,19 @@ module TwitterCli
       
       when 'tweet'
         msg = get_tweet
-        Tweet.new(@username, msg).send_tweet 
+        Tweet.new(@username, msg).send_tweet
+
+      when 'follow'
+        UserFollow.new(@username, user_to_follow).follow
       end
     end
 
+    private
+
+    def user_to_follow
+      gets.chomp
+    end
+    
     def get_input
       gets.chomp
     end
@@ -46,8 +55,9 @@ module TwitterCli
        \/       \/          \/            \/     \/  
        ' + @username + ' to TwitchBlade
             help
-       tweet : for tweeting
-       help  : for displaying help'
+       tweet  : for tweeting
+       follow : for following other twitchers
+       help   : for displaying help'
    end
   end
 end
