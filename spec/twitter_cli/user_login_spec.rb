@@ -6,8 +6,8 @@ module TwitterCli
     context "signing in" do
       it "should let the user sign in according to the name and password" do
         user_login = UserLogin.new("anugrah", "megamind")
-        timeline = Timeline.new('anugrah')
-        expect(user_login.process).to eq(timeline.process)
+        stream = Stream.new('anugrah')
+        expect(user_login.process).to eq(stream.get_stream)
       end
 
       it "should let the user login using valid credentials" do

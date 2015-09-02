@@ -42,7 +42,7 @@ module TwitterCli
 
     def password_validation(res)
       if res[0]['password'] == @password
-        Timeline.new(@username).process
+        Stream.new(@username).get_stream
       else
         "Access denied! Check your password."
       end
