@@ -1,3 +1,5 @@
+require 'io/console'
+
 module TwitterCli
   class Cli
     #It is mainly for handling i/o operations
@@ -97,7 +99,7 @@ module TwitterCli
     
     def get_password
       puts "Pls enter the password.\n"
-      gets.chomp
+      STDIN.noecho(&:gets).chomp
     end
   end
 end

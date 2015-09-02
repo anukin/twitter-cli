@@ -3,14 +3,14 @@ require 'spec_helper'
 module TwitterCli
   describe "interface" do
     context "process" do
-      it "should process based on input and output" do
+      # it "should process based on input and output" do
 
-        cli = Cli.new
-        allow(cli).to receive(:get_name_timeline) { 'red' }
+      #   cli = Cli.new
+      #   allow(cli).to receive(:get_name_timeline) { 'red' }
 
-        tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
-        expect(cli.process("timeline")).to eq(tweets_of_red)
-      end
+      #   tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
+      #   expect(cli.process("timeline")).to eq(tweets_of_red)
+      # end
       
       it "should process based on input and output when input is help" do
         cli = Cli.new
