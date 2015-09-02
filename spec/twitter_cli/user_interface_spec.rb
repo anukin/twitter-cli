@@ -14,6 +14,7 @@ module TwitterCli
             help
        tweet    : for tweeting
        follow   : for following other twitchers
+       unfollow : for unfollowing other twitchers
        timeline : view timeline of self
        search   : view timeline of other users
        stream   : view your stream
@@ -40,6 +41,15 @@ module TwitterCli
       allow(user_interface).to receive(:user_to_follow) { user_to_follow }
       user_follow = UserFollow.new(username, user_to_follow)
       expect(user_interface.process('follow')).to eq(user_follow.follow)
+    end
+
+    it "should process if given input is unfollow" do
+      username = 'anugrah'
+      user_to_unfollow = 'red'
+      user_interface = UserInterface.new('anugrah')
+      allow(user_interface).to receive(:user_to_unfollow) { user_to_unfollow }
+      user_unfollow = UserUnfollow.new(username, user_to_unfollow)
+      expect(user_interface.process('unfollow')).to eq(user_unfollow.unfollow)
     end
 
     it "should process if given input is timeline" do

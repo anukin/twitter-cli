@@ -40,6 +40,9 @@ module TwitterCli
       when 'stream'
         Stream.new(@username).get_stream
 
+      when 'unfollow'
+        UserUnfollow.new(@username, user_to_unfollow).unfollow
+
       when 'logout'
         "logging out"
       end
@@ -56,6 +59,7 @@ module TwitterCli
             help
        tweet    : for tweeting
        follow   : for following other twitchers
+       unfollow : for unfollowing other twitchers
        timeline : view timeline of self
        search   : view timeline of other users
        stream   : view your stream
@@ -72,6 +76,11 @@ module TwitterCli
 
     def user_to_follow
       puts "Pls enter the name to follow ? \n"
+      gets.chomp
+    end
+
+    def user_to_unfollow
+      puts "Pls enter the name to unfollow ? \n"
       gets.chomp
     end
     
