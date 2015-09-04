@@ -18,6 +18,7 @@ module TwitterCli
        timeline : view timeline of self
        search   : view timeline of other users
        stream   : view your stream
+       retweet  : retweet
        help     : for displaying help
        logout   : for logging out'
       user_interface = UserInterface.new(username)
@@ -67,6 +68,12 @@ module TwitterCli
     it "should process if given input is stream" do
       user_interface = UserInterface.new('anugrah')
       expect(user_interface.process('stream')).to eq(Stream.new('anugrah').get_stream)
+    end
+
+    it "should process if given input is retweet" do
+      user_interface = UserInterface.new('anugrah')
+      allow(user_interface).to receive(:get_tweet_id) { 4 }
+      expect(user_interface.process('retweet')).to eq(Retweet.new('anugrah', 4).execute)
     end
   end
 end

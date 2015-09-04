@@ -1,36 +1,36 @@
 module TwitterCli
   class Retweet
-    def initialize(username, tweeted_by, tweet_id)
+    def initialize(username, tweet_id)
       @username = username
-      @tweeted_by = tweeted_by
       @tweet_id = tweet_id
     end
 
     def execute
       connect
-      result = post_retweet(retrieve_tweet(@tweet_id), @tweeted_by)
+      result = post_retweet(@tweet_id)
       disconnect
       result
     end
 
     private
 
-    def post_retweet(retrieve_tweet, tweeted_by)
-      tweet = tweeted_by + " : " + retrieve_tweet[0]['tweet']
-      tweet_id = retrieve_tweet[0]['id']
-      validate_uniqueness(retweet_result(tweet_id), tweet_id, tweet)
+    def post_retweet(tweet_id)
+      validate_uniqueness(retweet_result(tweet_id), tweet_id)
     end
 
-    def validate_uniqueness(res, tweet_id, tweet)
+    def validate_uniqueness(res, tweet_id)
       if res.ntuples == 1
         "You have already retweeted this tweet"
       else
-        check_retweet(tweet_id, tweet)
+        check_retweet(tweet_id)
       end
     end
 
-    def check_retweet(tweet_id, tweet)
+    def check_retweet(tweet_id)
       result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
+      tweet_result = retrieve_tweet(tweet_id)
+      tweeted_by = tweet_result[0]['username']
+      tweet = tweeted_by + " : " + tweet_result[0]['tweet']
       if result.ntuples == 0
         prepare_insert_statement
         tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
@@ -40,8 +40,7 @@ module TwitterCli
       else
         result_original_tweet = retrieve_tweet(result[0]['original_tweet_id'])
         id = result_original_tweet[0]['id']
-        tweeted_by = result_original_tweet[0]['username']
-        post_retweet(retrieve_tweet(id), tweeted_by)
+        post_retweet(id)
       end
     end
     

@@ -40,6 +40,9 @@ module TwitterCli
       when 'stream'
         Stream.new(@username).get_stream
 
+      when 'retweet'
+        Retweet.new(@username, get_tweet_id).execute
+
       when 'unfollow'
         UserUnfollow.new(@username, user_to_unfollow).unfollow
 
@@ -63,11 +66,17 @@ module TwitterCli
        timeline : view timeline of self
        search   : view timeline of other users
        stream   : view your stream
+       retweet  : retweet
        help     : for displaying help
        logout   : for logging out'
    end
 
     private
+
+    def get_tweet_id
+      puts "Pls enter the tweet id you wish to retweet"
+      gets.chomp.to_i
+    end
 
     def get_name
       puts "Pls enter the name to search for ? \n"
