@@ -8,32 +8,45 @@ module TwitterCli
 
     def execute
       connect
-      result = post_retweet(retrieve_tweet)
+      result = post_retweet(retrieve_tweet(@tweet_id), @tweeted_by)
       disconnect
       result
     end
 
     private
 
-    def post_retweet(retrieve_tweet)
-      @tweet = @tweeted_by + " : " + retrieve_tweet
-      validate_uniqueness(retweet_result)
+    def post_retweet(retrieve_tweet, tweeted_by)
+      tweet = tweeted_by + " : " + retrieve_tweet[0]['tweet']
+      tweet_id = retrieve_tweet[0]['id']
+      validate_uniqueness(retweet_result(tweet_id), tweet_id, tweet)
     end
 
-    def validate_uniqueness(res)
+    def validate_uniqueness(res, tweet_id, tweet)
       if res.ntuples == 1
         "You have already retweeted this tweet"
       else
-        prepare_insert_statement
-        tweet_res = @conn.exec_prepared('insert_tweet',[@username, @tweet ])
-        prepare_insert_retweet
-        @conn.exec_prepared('insert_retweet', [@tweet_id, @username, tweet_res[0]['id']])
-        "Successfully retweeted tweet by " + @tweeted_by + "!"
+        check_retweet(tweet_id, tweet)
       end
     end
 
-    def retweet_result
-      @conn.exec('select * from retweets where retweeted_by = $1 and original_tweet_id = $2', [@username, @tweet_id])
+    def check_retweet(tweet_id, tweet)
+      result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
+      if result.ntuples == 0
+        prepare_insert_statement
+        tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
+        prepare_insert_retweet
+        @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
+        "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
+      else
+        result_original_tweet = retrieve_tweet(result[0]['original_tweet_id'])
+        id = result_original_tweet[0]['id']
+        tweeted_by = result_original_tweet[0]['username']
+        post_retweet(retrieve_tweet(id), tweeted_by)
+      end
+    end
+    
+    def retweet_result(tweet_id)
+      @conn.exec('select * from retweets where retweeted_by = $1 and original_tweet_id = $2', [@username, tweet_id])
     end
     
     def prepare_insert_statement
@@ -44,9 +57,8 @@ module TwitterCli
       @conn.prepare("insert_retweet", "insert into retweets(original_tweet_id, retweeted_by, retweet_tweet_id) values ( $1, $2, $3 )")
     end
 
-    def retrieve_tweet
-      @res = @conn.exec('select * from tweets where id = $1', [@tweet_id])
-      @res[0]['tweet']
+    def retrieve_tweet(tweet_id)
+      @conn.exec('select * from tweets where id = $1', [tweet_id])
     end
 
     def connect
