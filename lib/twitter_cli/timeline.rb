@@ -14,7 +14,7 @@ module TwitterCli
       if validate(@user_result)
         output = "No such user exists"
       else
-        @res = @conn.exec('select tweet from tweets where username = $1', [@user])
+        @res = @conn.exec('select id, username, tweet from tweets where username = $1', [@user])
         if validate(@res)
           output = "No tweets yet"
         else
@@ -58,7 +58,7 @@ module TwitterCli
 
     def aggregate_tweets
       @res.each do|row|
-          @tweets << row['tweet']
+          @tweets << ( row['id'] + " " + row['username'] + " : " + row['tweet'] )
       end
     end
   end

@@ -6,7 +6,7 @@ module TwitterCli
 
     def get_stream
       connect
-      res = @conn.exec('select tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', [@username])
+      res = @conn.exec('select tweets.id, tweets.username, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', [@username])
       result = aggregate_tweets(res)
       disconnect
       result
@@ -24,7 +24,7 @@ module TwitterCli
     def aggregate_tweets(res)
       tweets = []
       res.each do|row|
-          tweets << row['tweet']
+          tweets << ( row['id'] + " " + row['username'] + " : " + row['tweet'] )
       end
       tweets
     end

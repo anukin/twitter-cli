@@ -3,12 +3,12 @@ require 'spec_helper'
 module TwitterCli
   describe 'Timeline' do
     let(:conn) { PG.connect(:dbname => ENV['database']) }
-    let(:res_red) { conn.exec('select tweet from tweets where username = $1', ['red']) }
-    let(:res_anugrah) { conn.exec('select tweet from tweets where username = $1', ['anugrah']) }
+    let(:res_red) { conn.exec('select id, username, tweet from tweets where username = $1', ['red']) }
+    let(:res_anugrah) { conn.exec('select id, username, tweet from tweets where username = $1', ['anugrah']) }
     let(:tweets) { [] }
     def helper_get_tweets(res)
       res.each do|row|
-        tweets << row['tweet']
+        tweets << ( row['id'] + " " + row['username'] + " : " + row['tweet'] ) 
       end
       tweets
     end

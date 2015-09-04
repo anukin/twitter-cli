@@ -3,12 +3,12 @@ require 'spec_helper'
 module TwitterCli
   describe "stream" do
     let(:conn) { PG.connect(:dbname => ENV['database']) }
-    let(:res_anugrah) { conn.exec('select tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', ['anugrah']) }
-    let(:res_red) { conn.exec('select tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', ['red']) }
+    let(:res_anugrah) { conn.exec('select tweets.id, tweets.username, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', ['anugrah']) }
+    let(:res_red) { conn.exec('select tweets.id, tweets.username, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', ['red']) }
     let(:tweets) { [] }
     def helper_get_stream(res)
       res.each do|row|
-        tweets << row['tweet']
+        tweets << ( row['id'] + " " + row['username'] + " : " + row['tweet'] )
       end
       tweets
     end
