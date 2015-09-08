@@ -48,8 +48,8 @@ module TwitterCli
     
     private
     def connect
-      #@conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
-      @conn = PG.connect(:dbname => ENV['database'])
+      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+      #@conn = PG.connect(:dbname => ENV['database'])
     end
 
     def disconnect
