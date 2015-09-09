@@ -1,0 +1,14 @@
+test:
+  adapter: postgresql
+  encoding: utf8
+  database: twitchblade_test
+  host: localhost
+
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: twitchblade
+  hostaddress: 192.168.1.19
+  username: postgres
+  password: megamind
+  port: 5432
