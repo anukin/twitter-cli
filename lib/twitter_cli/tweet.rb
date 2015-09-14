@@ -1,5 +1,7 @@
 module TwitterCli
   class Tweet
+    attr_reader :username, :tweet
+    
     def initialize(username, tweet)
       @username = username
       @tweet = tweet
@@ -11,6 +13,22 @@ module TwitterCli
       @conn.exec_prepared("insert_tweet", [@username, @tweet])
       disconnect
       "Successfully tweeted"
+    end
+
+    def ==(other)
+      if !self.instance_of?(other.class)
+        false
+      else
+        self.username == other.username && self.tweet == other.tweet
+      end
+    end
+
+    def hash
+      [@username, @tweet].hash
+    end
+
+    def eql?(other)
+      self == other
     end
 
     private

@@ -1,10 +1,29 @@
 module TwitterCli
   class UserInterfaceParser
-    def initialize(username)
+    def initialize(username, command)
       @username = username
+      @command = command
     end
     
     def parse
+      case @command
+      when 'help'
+        help
+      when 'tweet'
+        create_tweet(get_tweet)
+      end
+    end
+
+    private
+    def get_tweet
+      gets.chomp
+    end
+
+    def create_tweet(msg)
+      Tweet.new(@username, msg)
+    end
+    
+    def help
       ' __      __       .__                                
 /  \    /  \ ____ |  |   ____  ____   _____   ____   
 \   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
