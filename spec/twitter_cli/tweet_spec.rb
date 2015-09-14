@@ -16,9 +16,11 @@ module TwitterCli
       it "should be possible for the user to tweet" do
         username = 'anugrah'
         msg = 'i like the smell of napalm in the morning'
+        conn.exec('commit')
         tweet = Tweet.new(username,msg)
         tweet.send_tweet
         expect(helper_get_tweets(res_anugrah)).to include(msg)
+        conn.exec('rollback')
       end
     end
 
