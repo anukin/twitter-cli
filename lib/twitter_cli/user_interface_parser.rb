@@ -1,6 +1,7 @@
 module TwitterCli
   class UserInterfaceParser
-    def initialize(username, command)
+    def initialize(connection, username, command)
+      @conn = connection
       @username = username
       @command = command
     end
@@ -20,7 +21,7 @@ module TwitterCli
     end
 
     def create_tweet(msg)
-      Tweet.new(@username, msg)
+      Tweet.new(@conn, @username, msg)
     end
     
     def help
