@@ -1,19 +1,17 @@
 module TwitterCli
   class UserFollow
-    def initialize(username, user_to_follow)
+    def initialize(connection, username, user_to_follow)
+      @conn = connection
       @username = username
       @user_to_follow = user_to_follow
     end
 
     def follow
-      connect
       if validate
-        result = "Pls follow someone who exists"
+        "Pls follow someone who exists"
       else
-        result = validate_uniqueness
+        validate_uniqueness
       end
-      disconnect
-      result
     end
     private
     
