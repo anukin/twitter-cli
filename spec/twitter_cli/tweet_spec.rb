@@ -16,9 +16,9 @@ module TwitterCli
         conn.exec('begin')
         username = 'anugrah'
         msg = 'foo bar baz'
-        res_anugrah = conn.exec('select tweet from tweets where username = $1', ['anugrah'])
         tweet = Tweet.new(conn, username, msg)
         tweet.send_tweet
+        res_anugrah = conn.exec('select tweet from tweets where username = $1', ['anugrah'])
         expect(helper_get_tweets(res_anugrah)).to include(msg)
         conn.exec('rollback')
       end
