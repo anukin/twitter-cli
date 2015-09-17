@@ -15,13 +15,13 @@ module TwitterCli
     
     it "should return the tweets of all users which a certain user follows" do
       username = 'anugrah'
-      stream = Stream.new(username)
+      stream = Stream.new(conn, username)
       expect(stream.get_stream).to eq(helper_get_stream(res_anugrah))
     end
 
     it "should return the tweets of all users which a certain user follows" do
       username = 'red'
-      stream = Stream.new(username)
+      stream = Stream.new(conn, username)
       expect(stream.get_stream).to eq(helper_get_stream(res_red))
     end
   end
