@@ -2,6 +2,7 @@ require 'spec_helper'
 
 module TwitterCli
   describe "user interface" do
+    let(:conn) { PG.connect(:dbname => ENV['database']) }
     it "should give help to the user when asked for help" do
       username = 'anugrah'
       help = ' __      __       .__                                
@@ -26,54 +27,27 @@ module TwitterCli
     end
 
     it "should process if given input is tweet" do
+      conn.exec('begin')
       username = 'anugrah'
       msg = 'trolling around'
       user_interface = UserInterface.new(username)
       allow(user_interface).to receive(:get_tweet) { msg }
-      timeline = Timeline.new('anugrah')
-      user_interface.process('tweet')
-      expect(timeline.process).to include(msg)
-    end
-
-    it "should process if given input is follow" do
-      username = 'anugrah'
-      user_to_follow = 'red'
-      user_interface = UserInterface.new('anugrah')
-      allow(user_interface).to receive(:user_to_follow) { user_to_follow }
-      user_follow = UserFollow.new(username, user_to_follow)
-      expect(user_interface.process('follow')).to eq(user_follow.follow)
-    end
-
-    it "should process if given input is unfollow" do
-      username = 'anugrah'
-      user_to_unfollow = 'red'
-      user_interface = UserInterface.new('anugrah')
-      allow(user_interface).to receive(:user_to_unfollow) { user_to_unfollow }
-      user_unfollow = UserUnfollow.new(username, user_to_unfollow)
-      expect(user_interface.process('unfollow')).to eq(user_unfollow.unfollow)
-    end
-
-    it "should process if given input is timeline" do
-      username = 'anugrah'
-      user_interface = UserInterface.new(username)
-      expect(user_interface.process('timeline')).to eq(Timeline.new('anugrah').process)
-    end
-
-    it "should process if given input is search" do
-      user_interface = UserInterface.new('anugrah')
-      allow(user_interface).to receive(:get_name) { 'red' }
-      expect(user_interface.process('search')).to eq(Timeline.new('red').process)
-    end
-
-    it "should process if given input is stream" do
-      user_interface = UserInterface.new('anugrah')
-      expect(user_interface.process('stream')).to eq(Stream.new('anugrah').get_stream)
+      timeline = Timeline.new(conn, 'anugrah')
+      expect(user_interface.process('tweet')).to eq("Successfully tweeted")
+      conn.exec('rollback')
     end
 
     it "should process if given input is retweet" do
+      conn.exec('begin')
       user_interface = UserInterface.new('anugrah')
       allow(user_interface).to receive(:get_tweet_id) { 4 }
-      expect(user_interface.process('retweet')).to eq(Retweet.new('anugrah', 4).execute)
+      expect(user_interface.process('retweet')).to eq(Retweet.new(conn, 'anugrah', 4).execute)
+      conn.exec('rollback')
+    end
+
+    it "should return appropriate error message if input doesnot match expectations" do
+      user_interface = UserInterface.new('anugrah')
+      expect(user_interface.process('foo')).to eq("Not a valid input!")
     end
   end
 end

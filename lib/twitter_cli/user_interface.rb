@@ -16,6 +16,7 @@ module TwitterCli
     end
 
     def process(command)
+      connect
       case command
       when 'help'
         help
@@ -25,29 +26,34 @@ module TwitterCli
       
       when 'tweet'
         msg = get_tweet
-        Tweet.new(@username, msg).send_tweet
+        Tweet.new(@conn, @username, msg).send_tweet
 
       when 'follow'
-        UserFollow.new(@username, user_to_follow).follow
+        UserFollow.new(@conn, @username, user_to_follow).follow
 
       when 'timeline'
         puts "You are viewing your timeline now\n"
-        Timeline.new(@username).process
+        Timeline.new(@conn, @username).process
 
       when 'search'
-        Timeline.new(get_name).process
+        Timeline.new(@conn, get_name).process
 
       when 'stream'
-        Stream.new(@username).get_stream
+        Stream.new(@conn, @username).get_stream
 
       when 'retweet'
-        Retweet.new(@username, get_tweet_id).execute
+        Retweet.new(@conn, @username, get_tweet_id).execute
 
       when 'unfollow'
-        UserUnfollow.new(@username, user_to_unfollow).unfollow
+        UserUnfollow.new(@conn, @username, user_to_unfollow).unfollow
 
       when 'logout'
+        disconnect
         "logging out"
+
+      else
+        "Not a valid input!"
+
       end
     end
 
@@ -105,6 +111,14 @@ module TwitterCli
 
     def print_output
       puts @output
+    end
+
+    def connect
+      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+    end
+
+    def disconnect
+      @conn.close
     end
   end
 end

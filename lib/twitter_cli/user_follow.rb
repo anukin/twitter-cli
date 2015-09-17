@@ -13,15 +13,8 @@ module TwitterCli
         validate_uniqueness
       end
     end
-    private
-    
-    def connect
-      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
-    end
 
-    def disconnect
-      @conn.close
-    end
+    private
 
     def validate
       res = @conn.exec('select name from users where name = $1', [@user_to_follow])
