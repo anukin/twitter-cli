@@ -1,19 +1,17 @@
 module TwitterCli
   class UserUnfollow
-    def initialize(username, user_to_unfollow)
+    def initialize(connection, username, user_to_unfollow)
+      @conn = connection
       @username = username
       @user_to_unfollow = user_to_unfollow
     end
 
     def unfollow
-      connect
       if validate
-        result = "Pls unfollow someone who exists"
+        "Pls unfollow someone who exists"
       else
-        result = validate_uniqueness
+        validate_uniqueness
       end
-      disconnect
-      result
     end
 
     private
