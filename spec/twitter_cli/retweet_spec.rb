@@ -40,7 +40,7 @@ module TwitterCli
       res_lol = conn.exec('select tweet from tweets where username = $1', ['lol'])
       retweet = Retweet.new(conn, username, tweet_id)
       tweet = "anugrah : foo bar baz"
-      p retweet.execute
+      retweet.execute
       expect(helper_get_tweets(res_lol)).to include(tweet)
       conn.exec('rollback')
     end

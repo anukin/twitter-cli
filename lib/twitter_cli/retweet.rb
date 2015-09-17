@@ -20,26 +20,28 @@ module TwitterCli
       if res.ntuples == 1
         "You have already retweeted this tweet"
       else
-        check_retweet(tweet_id)
+        if check_retweet(tweet_id)
+          tweet_result = retrieve_tweet(tweet_id)
+          tweeted_by = tweet_result[0]['username']
+          tweet = tweeted_by + " : " + tweet_result[0]['tweet']
+          prepare_insert_tweet
+          tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
+          prepare_insert_retweet
+          @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
+          "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
+        else
+          result_original_tweet = retrieve_tweet(@result[0]['original_tweet_id'])
+          id = result_original_tweet[0]['id']
+          post_retweet(id)
+        end
       end
     end
 
+    private
+    
     def check_retweet(tweet_id)
-      result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
-      if result.ntuples == 0
-        tweet_result = retrieve_tweet(tweet_id)
-        tweeted_by = tweet_result[0]['username']
-        tweet = tweeted_by + " : " + tweet_result[0]['tweet']
-        prepare_insert_tweet
-        tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
-        prepare_insert_retweet
-        @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
-        "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
-      else
-        result_original_tweet = retrieve_tweet(result[0]['original_tweet_id'])
-        id = result_original_tweet[0]['id']
-        post_retweet(id)
-      end
+      @result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
+      @result.ntuples == 0
     end
     
     def retweet_result(tweet_id)
