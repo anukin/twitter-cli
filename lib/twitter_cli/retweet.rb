@@ -1,15 +1,13 @@
 module TwitterCli
   class Retweet
-    def initialize(username, tweet_id)
+    def initialize(connection, username, tweet_id)
+      @conn = connection
       @username = username
       @tweet_id = tweet_id
     end
 
     def execute
-      connect
-      result = post_retweet(@tweet_id)
-      disconnect
-      result
+      post_retweet(@tweet_id)
     end
 
     private
@@ -28,11 +26,11 @@ module TwitterCli
 
     def check_retweet(tweet_id)
       result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
-      tweet_result = retrieve_tweet(tweet_id)
-      tweeted_by = tweet_result[0]['username']
-      tweet = tweeted_by + " : " + tweet_result[0]['tweet']
       if result.ntuples == 0
-        prepare_insert_statement
+        tweet_result = retrieve_tweet(tweet_id)
+        tweeted_by = tweet_result[0]['username']
+        tweet = tweeted_by + " : " + tweet_result[0]['tweet']
+        prepare_insert_tweet
         tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
         prepare_insert_retweet
         @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
@@ -48,7 +46,7 @@ module TwitterCli
       @conn.exec('select * from retweets where retweeted_by = $1 and original_tweet_id = $2', [@username, tweet_id])
     end
     
-    def prepare_insert_statement
+    def prepare_insert_tweet
       @conn.prepare("insert_tweet", "insert into tweets(username, tweet) values ( $1, $2 ) returning id")
     end
 
