@@ -24,8 +24,7 @@ module TwitterCli
           tweet_result = retrieve_tweet(tweet_id)
           tweeted_by = tweet_result[0]['username']
           tweet = tweeted_by + " : " + tweet_result[0]['tweet']
-          prepare_insert_tweet
-          tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
+          Tweet.new(@conn, @username, tweet).tweet
           prepare_insert_retweet
           @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
           "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
@@ -48,10 +47,6 @@ module TwitterCli
       @conn.exec('select * from retweets where retweeted_by = $1 and original_tweet_id = $2', [@username, tweet_id])
     end
     
-    def prepare_insert_tweet
-      @conn.prepare("insert_tweet", "insert into tweets(username, tweet) values ( $1, $2 ) returning id")
-    end
-
     def prepare_insert_retweet
       @conn.prepare("insert_retweet", "insert into retweets(original_tweet_id, retweeted_by, retweet_tweet_id) values ( $1, $2, $3 )")
     end

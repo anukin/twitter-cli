@@ -42,6 +42,7 @@ module TwitterCli
         Stream.new(@conn, @username).get_stream
 
       when 'retweet'
+        #retweet verification need to be here
         Retweet.new(@conn, @username, get_tweet_id).execute
 
       when 'unfollow'
