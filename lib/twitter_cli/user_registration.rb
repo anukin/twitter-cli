@@ -2,23 +2,21 @@ module TwitterCli
   class UserRegistration
     #A class specifically in place for registering an user for twitch blade services
     attr_reader :username , :password
-    def initialize(username, password)
+    def initialize(connection, username, password)
+      @conn = connection
       @username = username
       @password = password
     end
 
     def process
-      connect
       prepare_insert_statement
       if validate
         @conn.exec_prepared("insert_user", [@username, @password])
         @timeline = create_timeline
-        res = @timeline.process
+        @timeline.process
       else
-        res = "Another user exists with same name pls go for some other username!"
+        "Another user exists with same name pls go for some other username!"
       end
-      disconnect
-      res
     end
 
     def ==(other)
@@ -38,15 +36,6 @@ module TwitterCli
     end
     
     private
-    
-    def connect
-      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
-      #@conn = PG.connect('192.168.0.115', 5432, nil, nil, 'twitchblade', 'postgres', 'megamind')
-    end
-
-    def disconnect
-      @conn.close
-    end
 
     def prepare_insert_statement
       @conn.prepare("insert_user", "insert into users (name, password) values ($1, $2)")
@@ -58,7 +47,7 @@ module TwitterCli
     end
 
     def create_timeline
-      Timeline.new(@username)
+      Timeline.new(@conn, @username)
     end
   end
 end
