@@ -35,13 +35,5 @@ module TwitterCli
       res = @conn.exec('select name from users where name = $1', [@user_to_unfollow])
       res.ntuples == 0
     end
-    
-    def connect
-      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
-    end
-
-    def disconnect
-      @conn.close
-    end
   end
 end

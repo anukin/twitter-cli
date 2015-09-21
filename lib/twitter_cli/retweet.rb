@@ -54,14 +54,5 @@ module TwitterCli
     def retrieve_tweet(tweet_id)
       @conn.exec('select * from tweets where id = $1', [tweet_id])
     end
-
-    def connect
-      #@conn = PG.connect( :dbname => ENV['database'])
-      @conn = PG.connect('192.168.1.19', 5432, nil, nil, 'twitchblade', 'postgres', 'megamind')
-    end
-
-    def disconnect
-      @conn.close
-    end
   end
 end
