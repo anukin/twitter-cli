@@ -16,7 +16,7 @@ module TwitterCli
 
       it "should parse according to the inputs" do
         parser = Parser.new('login', 'bulla', 'gunda')
-        expect(parser.parse).to eq("No!")
+        expect(parser.parse).to eq(UserLogin.new('bulla', 'gunda'))
       end
     end
   end

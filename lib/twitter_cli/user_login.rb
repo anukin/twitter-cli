@@ -9,7 +9,7 @@ module TwitterCli
 
     def process
       connect
-      output = validate
+      output = login
       disconnect
       output
     end
@@ -31,21 +31,21 @@ module TwitterCli
     end
 
     private
-    def validate
+    def login
       res = @conn.exec("select name, password from users where name = $1", [@username])
       if res.ntuples == 0
         "Access denied! No user by that name."
       else
-        password_validation(res)
+        if password_validation(res)
+          Stream.new(@conn, @username).get_stream
+        else
+          "Access denied! Check your password."
+        end
       end
     end
 
     def password_validation(res)
-      if res[0]['password'] == @password
-        Stream.new(@username).get_stream
-      else
-        "Access denied! Check your password."
-      end
+      res[0]['password'] == @password
     end
 
     def connect

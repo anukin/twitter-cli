@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 module TwitterCli
-  describe "User Signing in" do
+  describe "Signing in" do
     let(:conn) { PG.connect(:dbname => ENV['database']) }
-    context "signing in" do
-      it "should let the user sign in according to the name and password" do
+    context Process do
+      it "should let the user sign in according to the name and password and return the user stream" do
         user_login = UserLogin.new("anugrah", "megamind")
-        stream = Stream.new('anugrah')
+        stream = Stream.new(conn, 'anugrah')
         expect(user_login.process).to eq(stream.get_stream)
       end
 

@@ -24,7 +24,10 @@ module TwitterCli
     private
 
     def get_timeline
-      Timeline.new(@name)
+      connect
+      result = Timeline.new(@conn, @name)
+      disconnect
+      result
     end
 
     def get_registered
@@ -33,6 +36,14 @@ module TwitterCli
 
     def login
       UserLogin.new(@name, @password)
+    end
+
+    def connect
+      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+    end
+
+    def disconnect
+      @conn.close
     end
   end
 end
