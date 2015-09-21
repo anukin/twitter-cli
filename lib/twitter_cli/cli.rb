@@ -12,6 +12,7 @@ module TwitterCli
     end
     
     def process(command_string)
+      connect
       @command_string = command_string
       case command_string
       
@@ -30,9 +31,18 @@ module TwitterCli
       when 'exit'
         exit 
       end
+      disconnect
     end
     
     private
+
+    def connect
+      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+    end
+
+    def disconnect
+      @conn.close
+    end
 
     def execute
       parse
@@ -54,7 +64,7 @@ module TwitterCli
     end
     
     def parse
-      @parser = create_parser(@command_string, @name, @password)
+      @parser = create_parser(@conn, @command_string, @name, @password)
       @parsed_input = @parser.parse
     end
     
@@ -77,8 +87,8 @@ module TwitterCli
       puts @output
     end
     
-    def create_parser(input, name, password)
-      Parser.new(input, name, password)
+    def create_parser(connection, input, name, password)
+      Parser.new(connection, input, name, password)
     end
     
     def get_input

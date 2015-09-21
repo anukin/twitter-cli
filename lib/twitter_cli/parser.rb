@@ -25,8 +25,7 @@ module TwitterCli
     private
 
     def get_timeline
-      result = Timeline.new(@conn, @name)
-      result
+      Timeline.new(@conn, @name)
     end
 
     def get_registered
