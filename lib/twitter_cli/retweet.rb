@@ -13,11 +13,7 @@ module TwitterCli
     private
 
     def post_retweet(tweet_id)
-      validate_uniqueness(retweet_result(tweet_id), tweet_id)
-    end
-
-    def validate_uniqueness(res, tweet_id)
-      if res.ntuples == 1
+      if validate_uniqueness(retweet_result(tweet_id), tweet_id)
         "You have already retweeted this tweet"
       else
         if check_retweet(tweet_id)
@@ -36,7 +32,9 @@ module TwitterCli
       end
     end
 
-    private
+    def validate_uniqueness(res, tweet_id)
+      res.ntuples == 1
+    end
     
     def check_retweet(tweet_id)
       @result = @conn.exec('select * from retweets where retweet_tweet_id = $1', [tweet_id])
