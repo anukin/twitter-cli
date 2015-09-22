@@ -30,8 +30,8 @@ module TwitterCli
       
       when 'exit'
         exit 
+        disconnect
       end
-      disconnect
     end
     
     private

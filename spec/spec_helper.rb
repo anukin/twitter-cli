@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 require 'twitter_cli'
 require 'pg'
 require 'figaro'
