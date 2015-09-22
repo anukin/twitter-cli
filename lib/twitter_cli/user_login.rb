@@ -33,10 +33,6 @@ module TwitterCli
       [@username.hash, @password.hash].hash
     end
 
-    def eql?(other)
-      self == other
-    end
-
     private
 
     def password_validation(res)

@@ -9,7 +9,9 @@ module TwitterCli
       res = @conn.exec('select tweets.id, tweets.username, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', [@username])
       aggregate_tweets(res)
     end
-
+    
+    private
+    
     def connect
       @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
       #@conn = PG.connect(:dbname => ENV['database'])

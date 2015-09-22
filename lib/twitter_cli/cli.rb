@@ -45,6 +45,7 @@ module TwitterCli
     end
 
     def execute
+      #all puts must be made to functions
       parse
       output = @parsed_input.process
       unless output.class == String && output != "No tweets yet" 

@@ -37,10 +37,6 @@ module TwitterCli
     def hash
       [@user].hash
     end
-
-    def eql?(other)
-      self == other
-    end
     
     private
     def connect

@@ -22,7 +22,7 @@ module TwitterCli
           tweet = tweeted_by + " : " + tweet_result[0]['tweet']
           Tweet.new(@conn, @username, tweet).tweet
           prepare_insert_retweet
-          @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
+          @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_result[0]['id']])
           "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
         else
           result_original_tweet = retrieve_tweet(@result[0]['original_tweet_id'])

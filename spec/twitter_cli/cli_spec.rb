@@ -2,15 +2,25 @@ require 'spec_helper'
 
 module TwitterCli
   describe "interface" do
+    let(:conn) { PG.connect(:dbname => ENV['database']) }
+    let(:res_red) { conn.exec('select id, username, tweet from tweets where username = $1', ['red']) }
+    let(:res_anugrah) { conn.exec('select id, username, tweet from tweets where username = $1', ['anugrah']) }
+    let(:tweets) { [] }
+    def helper_get_tweets(res)
+      res.each do|row|
+        tweets << ( row['id'] + " " + row['username'] + " : " + row['tweet'] ) 
+      end
+      tweets
+    end
     context "process" do
-      # it "should process based on input and output" do
+      it "should process based on input and output" do
 
-      #   cli = Cli.new
-      #   allow(cli).to receive(:get_name_timeline) { 'red' }
+        cli = Cli.new
+        allow(cli).to receive(:get_name_timeline) { 'red' }
 
-      #   tweets_of_red = ["caught a rattata", "shine on you crazy diamond"]
-      #   expect(cli.process("timeline")).to eq(tweets_of_red)
-      # end
+        tweets_of_red = helper_get_tweets(res_red)
+        expect(cli.process("timeline")).to eq(tweets_of_red)
+      end
       
       it "should process based on input and output when input is help" do
         cli = Cli.new
