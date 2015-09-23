@@ -45,11 +45,15 @@ module TwitterCli
     end
 
     it "should process if given input is follow" do
-      conn.exec('begin')
       user_interface = UserInterface.new('anugrah')
       allow(user_interface).to receive(:user_to_follow) { 'red' }
-      expect(user_interface.process('follow')).to eq("You have already followed this user")
-      conn.exec('rollback')
+      expect(user_interface.process('follow')).to eq("Successfully followed red")
+    end
+
+    it "should process if given input is unfollow" do
+      user_interface = UserInterface.new('anugrah')
+      allow(user_interface).to receive(:user_to_unfollow) { 'red' }
+      expect(user_interface.process('unfollow')).to eq("Successfully unfollowed red")
     end
 
     it "should process if given input is timeline" do

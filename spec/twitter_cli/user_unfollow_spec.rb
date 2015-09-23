@@ -12,6 +12,7 @@ module TwitterCli
       user_follow = UserFollow.new(conn, username, user_to_unfollow)
       user_follow.follow
       expect(user_unfollow.unfollow).to eq("Successfully unfollowed red")
+      conn.exec('rollback')
     end
 
     it "should allow users to unfollow users which user is following" do
@@ -19,7 +20,6 @@ module TwitterCli
       user_to_unfollow = 'lol'
       user_unfollow = UserUnfollow.new(conn, username, user_to_unfollow)
       expect(user_unfollow.unfollow).to eq("You do not follow this user")
-      conn.exec('rollback')
     end
     
     it "should allow users to unfollow valid users" do

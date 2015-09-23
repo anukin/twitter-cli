@@ -22,14 +22,14 @@ module TwitterCli
     end
 
     def prepare_insert_statement
-      @conn.prepare("insert_user", "insert into follow (username, following) values ($1, $2)")
+      @conn.prepare("insert_follower", "insert into follow (username, following) values ($1, $2)")
     end
 
     def validate_uniqueness
       res = @conn.exec('select * from follow where username = $1 and following = $2', [@username, @user_to_follow])
       if res.ntuples == 0
         prepare_insert_statement
-        @conn.exec_prepared("insert_user", [@username, @user_to_follow])
+        @conn.exec_prepared("insert_follower", [@username, @user_to_follow])
         "Successfully followed " + @user_to_follow
       else
         "You have already followed this user"
