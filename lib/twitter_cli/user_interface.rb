@@ -21,9 +21,6 @@ module TwitterCli
       when 'help'
         help
       
-      when 'exit'
-        exit
-      
       when 'tweet'
         msg = get_tweet
         Tweet.new(@conn, @username, msg).send_tweet
