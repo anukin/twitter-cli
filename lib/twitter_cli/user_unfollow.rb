@@ -10,7 +10,13 @@ module TwitterCli
       if validate
         "Pls unfollow someone who exists"
       else
-        validate_uniqueness
+        unless validate_uniqueness
+          prepare_delete_statement
+          @conn.exec_prepared("delete_user", [@username, @user_to_unfollow])
+          "Successfully unfollowed " + @user_to_unfollow
+        else
+          "You do not follow this user"
+        end
       end
     end
 
@@ -22,13 +28,7 @@ module TwitterCli
 
     def validate_uniqueness
       res = @conn.exec('select * from follow where username = $1 and following = $2', [@username, @user_to_unfollow])
-      unless res.ntuples == 0
-        prepare_delete_statement
-        @conn.exec_prepared("delete_user", [@username, @user_to_unfollow])
-        "Successfully unfollowed " + @user_to_unfollow
-      else
-        "You do not follow this user"
-      end
+      res.ntuples == 0
     end
     
     def validate
