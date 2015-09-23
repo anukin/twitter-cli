@@ -48,7 +48,7 @@ module TwitterCli
       conn.exec('begin')
       user_interface = UserInterface.new('anugrah')
       allow(user_interface).to receive(:user_to_follow) { 'red' }
-      expect(user_interface.process('follow')).to eq(UserFollow.new(conn, 'anugrah', 'red').follow)
+      expect(user_interface.process('follow')).to eq("You have already followed this user")
       conn.exec('rollback')
     end
 

@@ -8,12 +8,14 @@ module TwitterCli
     it "should allow users to follow each other" do
       @conn.exec('begin')
       username = 'anugrah'
-      user_to_follow = 'red'
+      user_to_follow = 'blue'
       user_follow = UserFollow.new(@conn, username, user_to_follow)
-      expect(user_follow.follow).to eq("Successfully followed red")
+      expect(user_follow.follow).to eq("Successfully followed blue")
+      @conn.exec('rollback')
     end
 
     it "should allow users to follow users only once" do
+      @conn.exec('begin')
       username = 'anugrah'
       user_to_follow = 'red'
       user_follow = UserFollow.new(@conn, username, user_to_follow)
