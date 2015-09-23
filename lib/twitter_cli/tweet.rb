@@ -26,10 +26,6 @@ module TwitterCli
       [@username, @tweet].hash
     end
 
-    def eql?(other)
-      self == other
-    end
-
     private
     
     def prepare_insert_statement
