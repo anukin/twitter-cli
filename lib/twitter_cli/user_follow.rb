@@ -10,7 +10,13 @@ module TwitterCli
       if validate
         "Pls follow someone who exists"
       else
-        validate_uniqueness
+        if validate_uniqueness
+          prepare_insert_statement
+          @conn.exec_prepared("insert_follower", [@username, @user_to_follow])
+          "Successfully followed " + @user_to_follow
+        else
+          "You have already followed this user"
+        end
       end
     end
 
@@ -27,13 +33,7 @@ module TwitterCli
 
     def validate_uniqueness
       res = @conn.exec('select * from follow where username = $1 and following = $2', [@username, @user_to_follow])
-      if res.ntuples == 0
-        prepare_insert_statement
-        @conn.exec_prepared("insert_follower", [@username, @user_to_follow])
-        "Successfully followed " + @user_to_follow
-      else
-        "You have already followed this user"
-      end
+      res.ntuples == 0
     end
   end
 end

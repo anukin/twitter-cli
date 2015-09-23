@@ -29,6 +29,7 @@ module TwitterCli
         return help 
       
       when 'exit'
+        #graceful exit using break
         exit 
         disconnect
       end
