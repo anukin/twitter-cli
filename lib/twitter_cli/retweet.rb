@@ -20,9 +20,10 @@ module TwitterCli
           tweet_result = retrieve_tweet(tweet_id)
           tweeted_by = tweet_result[0]['username']
           tweet = tweeted_by + " : " + tweet_result[0]['tweet']
-          Tweet.new(@conn, @username, tweet).tweet
+          prepare_insert_statement
+          tweet_res = @conn.exec_prepared('insert_tweet',[@username, tweet ])
           prepare_insert_retweet
-          @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_result[0]['id']])
+          @conn.exec_prepared('insert_retweet', [tweet_id, @username, tweet_res[0]['id']])
           "Successfully retweeted tweet by " + retrieve_tweet(tweet_id)[0]['username'] + "!"
         else
           result_original_tweet = retrieve_tweet(@result[0]['original_tweet_id'])
@@ -30,6 +31,10 @@ module TwitterCli
           post_retweet(id)
         end
       end
+    end
+
+    def prepare_insert_statement
+      @conn.prepare("insert_tweet", "insert into tweets(username, tweet) values ( $1, $2 ) returning id")
     end
 
     def validate_uniqueness(res, tweet_id)
