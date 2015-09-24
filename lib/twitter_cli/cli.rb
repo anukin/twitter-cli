@@ -1,5 +1,4 @@
 require 'io/console'
-
 module TwitterCli
   class Cli
     #It is mainly for handling i/o operations
@@ -32,6 +31,9 @@ module TwitterCli
         #graceful exit using break
         exit 
         disconnect
+
+      else
+        "Not a valid command pls type help for use"
       end
     end
     

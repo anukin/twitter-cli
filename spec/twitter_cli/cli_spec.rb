@@ -54,6 +54,11 @@ module TwitterCli
       #   timeline = Timeline.new('anugrah')
       #   expect(cli.process("login")).to eq(timeline.process)
       # end
+      it "should handle the case where the user enters anything other than what is given" do
+        cli = Cli.new
+        message = "Not a valid command pls type help for use"
+        expect(cli.process('foo')).to eq(message)
+      end
     end
   end
 end
