@@ -2,7 +2,7 @@ module TwitterCli
   class Validator
     def initialize(command_string)
       @command_string = command_string
-      @allowed_commands =['timeline'] 
+      @allowed_commands =['timeline', 'register', 'login', 'help', 'exit']
     end
 
     def validate

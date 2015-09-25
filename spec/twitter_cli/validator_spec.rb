@@ -12,6 +12,11 @@ module TwitterCli
         validator = Validator.new('foo')
         expect(validator.validate).to eq(false)
       end
+
+      it "should work for valid strings" do
+        validator = Validator.new('help')
+        expect(validator.validate).to eq(true)
+      end
     end
   end
 end
