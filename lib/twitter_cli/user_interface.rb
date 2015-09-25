@@ -7,9 +7,7 @@ module TwitterCli
     def run
       while
         @output = process(get_input)
-        if @output == "logging out"
-          break
-        end
+        break if @output == "logging out"
         print_output
       end
       @output
@@ -51,7 +49,6 @@ module TwitterCli
 
       else
         "Not a valid input!"
-
       end
     end
 
