@@ -9,6 +9,7 @@ module TwitterCli
     end
 
     def process
+      #need to rename process
       user_result = @conn.exec('select name from users where name = $1', [@user])
       if validate(user_result)
         "No such user exists"
