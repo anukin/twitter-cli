@@ -18,7 +18,7 @@ module TwitterCli
                                  "\nlogin : login to twitchblade" +
                                  "\nhelp : for help" + 
                                  "\nexit : for exit\n"
-        expect(help_processor.help).to eq(help)
+        expect(help_processor.execute).to eq(help)
       end
     end
   end

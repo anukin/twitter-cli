@@ -13,15 +13,6 @@ module TwitterCli
       tweets
     end
     context "process" do
-      it "should process based on input and output" do
-
-        cli = Cli.new
-        allow(cli).to receive(:get_name_timeline) { 'red' }
-
-        tweets_of_red = helper_get_tweets(res_red)
-        expect(cli.process("timeline")).to eq(tweets_of_red)
-      end
-      
       it "should process based on input and output when input is help" do
         cli = Cli.new
         help_menu = '

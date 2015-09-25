@@ -1,7 +1,8 @@
 module TwitterCli
 end
 
-
+require 'twitter_cli/processor'
+require 'twitter_cli/help_processor'
 require 'twitter_cli/timeline'
 require 'twitter_cli/cli'
 require 'twitter_cli/parser'
@@ -18,5 +19,4 @@ require 'twitter_cli/processor'
 require 'twitter_cli/timeline_processor'
 require 'twitter_cli/login_processor'
 require 'twitter_cli/register_processor'
-require 'twitter_cli/help_processor'
 require 'twitter_cli/exit_processor'

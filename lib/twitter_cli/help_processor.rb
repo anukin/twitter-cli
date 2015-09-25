@@ -1,10 +1,6 @@
 module TwitterCli
   class HelpProcessor < Processor
     def execute
-      puts help
-    end
-
-    def help
       '
  ______       _ __      __     ___  __        __   
 /_  __/    __(_) /_____/ /    / _ )/ /__ ____/ /__ 
