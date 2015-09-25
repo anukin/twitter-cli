@@ -7,6 +7,11 @@ module TwitterCli
         validator = Validator.new('timeline')
         expect(validator.validate).to eq(true)
       end
+
+      it "should not work for invalid strings" do
+        validator = Validator.new('foo')
+        expect(validator.validate).to eq(false)
+      end
     end
   end
 end
