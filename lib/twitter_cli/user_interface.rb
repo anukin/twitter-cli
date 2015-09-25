@@ -112,7 +112,12 @@ module TwitterCli
     end
 
     def connect
-      @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+      begin
+        @conn = PG.connect(:hostaddr => ENV['hostaddress'], :dbname => ENV['database'], :port => ENV['port'], :user => ENV['username'], :password => ENV['password'])
+      rescue
+        puts "sorry but network seems to be down pls try again!"
+        exit
+      end
     end
 
     def disconnect
