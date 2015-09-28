@@ -15,6 +15,8 @@ module TwitterCli
 
     def process(command)
       connect
+      #need to pull out the branch on condition
+      #Can do this by pulling out common behaviour ie conn and username into different class and then asking for more infor part of class ?
       case command
       when 'help'
         help
@@ -52,7 +54,7 @@ module TwitterCli
       end
     end
 
-    def help
+        def help
       ' __      __       .__                                
 /  \    /  \ ____ |  |   ____  ____   _____   ____   
 \   \/\/   _/ __ \|  | _/ ___\/  _ \ /     \_/ __ \  
@@ -70,7 +72,7 @@ module TwitterCli
        retweet  : retweet
        help     : for displaying help
        logout   : for logging out'
-   end
+    end
 
     private
 

@@ -11,4 +11,4 @@ development:
   hostaddress: 192.168.1.19
   username: postgres
   password: megamind
-  port: 5432
+  port: "5432"

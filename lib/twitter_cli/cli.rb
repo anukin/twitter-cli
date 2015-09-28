@@ -2,7 +2,7 @@ module TwitterCli
   class Cli
     #It is mainly for handling i/o operations
     def run
-      puts help
+      HelpProcessor.new(connect).execute
       while 
         print_output(process(get_input))
       end
@@ -38,3 +38,5 @@ module TwitterCli
     end
   end
 end
+
+# the Process::Help should be handling those with return true./false

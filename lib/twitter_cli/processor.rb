@@ -5,6 +5,7 @@ module TwitterCli
     end
 
     def execute
+      raise NotImplementedError, "This #{self.class} can not respond to:"
     end
   end
 end
