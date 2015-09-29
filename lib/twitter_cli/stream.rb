@@ -6,6 +6,7 @@ module TwitterCli
     end
 
     def get_stream
+      #it should be a build of objjects rathere than aggragate of tweets 
       res = @conn.exec('select tweets.id, tweets.username, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username = $1', [@username])
       aggregate_tweets(res)
     end
